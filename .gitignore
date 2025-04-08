@@ -54,3 +54,15 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+
+# Ignorar diretórios e arquivos gerados pelo Docker
+**/data/
+**/logs/
+**/tmp/
+**/pgdata/
+**/pgadmin-data/
+
+# Ignorar arquivos de configuração específicos do ambiente
+.env
+*.env
