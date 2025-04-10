@@ -21,10 +21,23 @@ Content-Type: application/json
   "email": "johndoe@email.com",
   "password": "123456"
 }
+
 ###
 
 # @name create_question
 POST {{baseUrl}}/questions
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "title": "What is the capita of France?",
+  "content": "I need to know the capital city of France for my geography project."
+}
+
+
+###
+# @name recent_questions
+GET {{baseUrl}}/questions?page=2
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
