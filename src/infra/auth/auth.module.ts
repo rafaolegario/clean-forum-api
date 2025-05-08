@@ -12,6 +12,7 @@ import { EnvModule } from '../env/env.module'
 @Module({
   imports: [
     PassportModule,
+    EnvModule,
     JwtModule.registerAsync({
       imports: [EnvModule],
       inject: [EnvService],
