@@ -2,25 +2,60 @@ import { PaginationParams } from '@/core/repositories/pagination-parms'
 import { AnswerCommentRepository } from '@/domain/forum/application/repositories/answer-comment-repository'
 import { AnswerComment } from '@/domain/forum/enterprise/entities/answer-comment'
 import { Injectable } from '@nestjs/common'
+import { PrismaService } from '../prisma.service'
+import { PrismaAnswerCommentMapper } from '../mappers/prisma-answer-comment-mapper'
 
 @Injectable()
 export class PrismaAnswerCommentRepository implements AnswerCommentRepository {
-  async create(AnswerComment: AnswerComment): Promise<void> {
-    throw new Error('Method not implemented.')
+  constructor(private prisma: PrismaService) {}
+
+  async create(answerComment: AnswerComment): Promise<void> {
+    const data = PrismaAnswerCommentMapper.toPrisma(answerComment)
+
+    await this.prisma.comment.create({
+      data,
+    })
   }
 
   async delete(comment: AnswerComment): Promise<void> {
-    throw new Error('Method not implemented.')
+    const data = PrismaAnswerCommentMapper.toPrisma(comment)
+
+    await this.prisma.comment.delete({
+      where: {
+        id: data.id,
+      },
+    })
   }
 
   async findById(id: string): Promise<AnswerComment | void> {
-    throw new Error('Method not implemented.')
+    const answerComment = await this.prisma.comment.findUnique({
+      where: {
+        id,
+      },
+    })
+
+    if (!answerComment) {
+      return
+    }
+
+    return PrismaAnswerCommentMapper.toDomain(answerComment)
   }
 
   async fetchManyCommentsByAnswerId(
-    AnswerID: string,
-    props: PaginationParams,
+    answerID: string,
+    { page }: PaginationParams,
   ): Promise<AnswerComment[]> {
-    throw new Error('Method not implemented.')
+    const answersComment = await this.prisma.comment.findMany({
+      where: {
+        answerId: answerID,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+      take: 20,
+      skip: (page - 1) * 20,
+    })
+
+    return answersComment.map(PrismaAnswerCommentMapper.toDomain)
   }
 }
