@@ -2,9 +2,12 @@
   "extends": "@rocketseat/eslint-config/node",
   "rules": {
     "no-useless-constructor": "off",
-    "no-unused-vars": ["warn", { 
-      "args": "none" 
-    }]
+    "no-unused-vars": [
+      "warn",
+      {
+        "args": "none"
+      }
+    ],
+    "@typescript-eslint/ban-types": "off"
   }
-
 }
