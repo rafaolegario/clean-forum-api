@@ -6,7 +6,7 @@ import { Test } from '@nestjs/testing'
 import { hash } from 'bcryptjs'
 import request from 'supertest'
 
-describe('Create question (E2E)', () => {
+describe('Fetch Recent questions (E2E)', () => {
   let app: INestApplication
   let prisma: PrismaService
   let jwt: JwtService
@@ -23,7 +23,7 @@ describe('Create question (E2E)', () => {
     await app.init()
   })
 
-  test('[POST] /questions', async () => {
+  test('[GET] /questions', async () => {
     const user = await prisma.user.create({
       data: {
         name: 'jonhDoe',
