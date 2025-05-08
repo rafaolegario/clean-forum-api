@@ -6,10 +6,12 @@ import { QuestionAttachmentsRepository } from '../repositories/question-attachme
 import { QuestionAttachmentList } from '../../enterprise/entities/question-attachment-list'
 import { QuestionAttachment } from '../../enterprise/entities/question-attachment'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { Injectable } from '@nestjs/common'
+import { Question } from '../../enterprise/entities/question'
 
 interface EditQuestionUseCaseRequest {
-  questionID: string
-  authorID: string
+  questionId: string
+  authorId: string
   title: string
   content: string
   attachmentIds: string[]
@@ -17,9 +19,12 @@ interface EditQuestionUseCaseRequest {
 
 type EditQuestionUseCaseResponse = Either<
   ResourceNotFoundError | NotAllowedError,
-  {}
+  {
+    question: Question
+  }
 >
 
+@Injectable()
 export class EditQuestionUseCase {
   constructor(
     private QuestionsRepository: QuestionsRepository,
@@ -27,24 +32,24 @@ export class EditQuestionUseCase {
   ) {}
 
   async execute({
-    questionID,
-    authorID,
+    questionId,
+    authorId,
     title,
     content,
     attachmentIds,
   }: EditQuestionUseCaseRequest): Promise<EditQuestionUseCaseResponse> {
-    const question = await this.QuestionsRepository.findById(questionID)
+    const question = await this.QuestionsRepository.findById(questionId)
 
     if (!question) {
       return left(new ResourceNotFoundError())
     }
 
-    if (authorID !== question.authorId.toString()) {
+    if (authorId !== question.authorId.toString()) {
       return left(new NotAllowedError())
     }
 
     const currentQuestionAttachments =
-      await this.QuestionAttachmentsRepository.fetchManyByQuestionId(questionID)
+      await this.QuestionAttachmentsRepository.fetchManyByQuestionId(questionId)
 
     const questionAttachmentList = new QuestionAttachmentList(
       currentQuestionAttachments,
@@ -65,8 +70,6 @@ export class EditQuestionUseCase {
 
     await this.QuestionsRepository.save(question)
 
-    return right({
-      question,
-    })
+    return right({ question })
   }
 }
