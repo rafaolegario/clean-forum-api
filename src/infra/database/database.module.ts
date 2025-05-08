@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common'
 import { PrismaService } from '../database/prisma/prisma.service'
 import { PrismaQuestionsRepository } from './prisma/repositories/prisma-questions-repository'
 import { PrismaQuestionCommentRepository } from './prisma/repositories/prisma-question-comment-repository'
-import { PrismaQuestionAttachments } from './prisma/repositories/prisma-question-attachments'
+import { PrismaQuestionAttachmentsRepository } from './prisma/repositories/prisma-question-attachments-repository'
 import { PrismaAnswersRepository } from './prisma/repositories/prisma-answers-repository'
 import { PrismaAnswerCommentRepository } from './prisma/repositories/prisma-answer-comment-repository'
 
@@ -23,7 +23,7 @@ import { PrismaAnswerAttachments } from './prisma/repositories/prisma-answer-att
       useClass: PrismaStudentsRepository,
     },
     PrismaQuestionCommentRepository,
-    PrismaQuestionAttachments,
+    PrismaQuestionAttachmentsRepository,
     PrismaAnswersRepository,
     PrismaAnswerCommentRepository,
     PrismaAnswerAttachments,
@@ -33,7 +33,7 @@ import { PrismaAnswerAttachments } from './prisma/repositories/prisma-answer-att
     PrismaService,
     QuestionsRepository,
     PrismaQuestionCommentRepository,
-    PrismaQuestionAttachments,
+    PrismaQuestionAttachmentsRepository,
     PrismaAnswersRepository,
     PrismaAnswerCommentRepository,
     PrismaAnswerAttachments,
