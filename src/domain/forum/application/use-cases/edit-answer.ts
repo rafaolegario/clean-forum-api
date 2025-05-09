@@ -7,17 +7,20 @@ import { AnswerAttachment } from '../../enterprise/entities/answer-attachment'
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { AnswersRepository } from '../repositories/answers-repository'
 import { Injectable } from '@nestjs/common'
+import { Answer } from '../../enterprise/entities/answer'
 
 interface EditAnswerUseCaseRequest {
-  answerID: string
-  authorID: string
+  answerId: string
+  authorId: string
   content: string
   attachmentIds: string[]
 }
 
 type EditAnswerUseCaseResponse = Either<
   ResourceNotFoundError | NotAllowedError,
-  {}
+  {
+    answer: Answer
+  }
 >
 
 @Injectable()
@@ -28,23 +31,23 @@ export class EditAnswerUseCase {
   ) {}
 
   async execute({
-    answerID,
-    authorID,
+    answerId,
+    authorId,
     content,
     attachmentIds,
   }: EditAnswerUseCaseRequest): Promise<EditAnswerUseCaseResponse> {
-    const answer = await this.answersRepository.findById(answerID)
+    const answer = await this.answersRepository.findById(answerId)
 
     if (!answer) {
       return left(new ResourceNotFoundError())
     }
 
-    if (authorID !== answer.authorId.toString()) {
+    if (authorId !== answer.authorId.toString()) {
       return left(new NotAllowedError())
     }
 
     const currentAnswerAttachments =
-      await this.answerAttachmentsRepository.fetchManyByAnswerId(answerID)
+      await this.answerAttachmentsRepository.fetchManyByAnswerId(answerId)
 
     const answerAttachmentList = new AnswerAttachmentList(
       currentAnswerAttachments,

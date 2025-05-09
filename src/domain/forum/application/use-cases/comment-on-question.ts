@@ -7,8 +7,8 @@ import { ResourceNotFoundError } from './errors/resource-not-found'
 import { Injectable } from '@nestjs/common'
 
 interface QuestionCommentUseCaseRequest {
-  authorID: string
-  questionID: string
+  authorId: string
+  questionId: string
   content: string
 }
 
@@ -27,18 +27,18 @@ export class QuestionCommentUseCase {
   ) {}
 
   async execute({
-    authorID,
-    questionID,
+    authorId,
+    questionId,
     content,
   }: QuestionCommentUseCaseRequest): Promise<QuestionCommentUseCaseResponse> {
-    const question = await this.QuestionsRepository.findById(questionID)
+    const question = await this.QuestionsRepository.findById(questionId)
 
     if (!question) {
       return left(new ResourceNotFoundError())
     }
 
     const questionComment = QuestionComment.create({
-      authorId: new UniqueEntityID(authorID),
+      authorId: new UniqueEntityID(authorId),
       questionId: question.id,
       content,
     })
