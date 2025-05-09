@@ -28,7 +28,7 @@ export class EditQuestionController {
   constructor(private editQuestion: EditQuestionUseCase) {}
 
   @Put()
-  @HttpCode(204)
+  @HttpCode(200)
   async handle(
     @Body(validationPipe) body: EditQuestionBodySchema,
     @Param('id') questionId: string,
