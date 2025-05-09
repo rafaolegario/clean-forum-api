@@ -17,6 +17,22 @@ import { DeleteQuestionController } from './controllers/delete-question.controll
 import { DeleteQuestionUseCase } from '@/domain/forum/application/use-cases/delete-question'
 import { AnswerQuestionController } from './controllers/answer-question.controller'
 import { AnswerQuestionUseCase } from '@/domain/forum/application/use-cases/answer-question'
+import { EditAnswerController } from './controllers/edit-answer.controller'
+import { EditAnswerUseCase } from '@/domain/forum/application/use-cases/edit-answer'
+import { DeleteAnswerController } from './controllers/delete-answer.controller'
+import { DeleteAnswerUseCase } from '@/domain/forum/application/use-cases/delete-answer'
+import { FetchQuestionAnswersController } from './controllers/fetch-question-answers.controller'
+import { FetchQuestionAnswersUseCase } from '@/domain/forum/application/use-cases/fetch-question-answers'
+import { ChooseBestAnswerController } from './controllers/choose-question-best-answer.controller'
+import { ChooseBestAnswerUseCase } from '@/domain/forum/application/use-cases/choose-question-best-answer'
+import { QuestionCommentController } from './controllers/comment-on-question.controller'
+import { QuestionCommentUseCase } from '@/domain/forum/application/use-cases/comment-on-question'
+import { DeleteCommentQuestionController } from './controllers/delete-comment-question.controller'
+import { DeleteQuestionCommentUseCase } from '@/domain/forum/application/use-cases/delete-comment-question'
+import { AnswerCommentController } from './controllers/comment-on-answer.controller'
+import { AnswerCommentUseCase } from '@/domain/forum/application/use-cases/comment-on-answer'
+import { DeleteCommentAnswerController } from './controllers/delete-comment-answer.controller'
+import { DeleteAnswerCommentUseCase } from '@/domain/forum/application/use-cases/delete-answer-comment'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -29,6 +45,14 @@ import { AnswerQuestionUseCase } from '@/domain/forum/application/use-cases/answ
     EditQuestionController,
     DeleteQuestionController,
     AnswerQuestionController,
+    EditAnswerController,
+    DeleteAnswerController,
+    FetchQuestionAnswersController,
+    ChooseBestAnswerController,
+    QuestionCommentController,
+    DeleteCommentQuestionController,
+    AnswerCommentController,
+    DeleteCommentAnswerController,
   ],
   providers: [
     CreateQuestionUseCase,
@@ -39,6 +63,14 @@ import { AnswerQuestionUseCase } from '@/domain/forum/application/use-cases/answ
     EditQuestionUseCase,
     DeleteQuestionUseCase,
     AnswerQuestionUseCase,
+    EditAnswerUseCase,
+    DeleteAnswerUseCase,
+    FetchQuestionAnswersUseCase,
+    ChooseBestAnswerUseCase,
+    QuestionCommentUseCase,
+    DeleteQuestionCommentUseCase,
+    AnswerCommentUseCase,
+    DeleteAnswerCommentUseCase,
   ],
 })
 export class HttpModule {}
