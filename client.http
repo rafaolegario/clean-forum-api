@@ -11,8 +11,8 @@ Content-Type: application/json
   "password": "123456"
 }
 
-###
 
+###
 # @name authenticate
 POST {{baseUrl}}/sessions
 Content-Type: application/json
@@ -22,8 +22,8 @@ Content-Type: application/json
   "password": "123456"
 }
 
-###
 
+###
 # @name create_question
 POST {{baseUrl}}/questions
 Content-Type: application/json
@@ -34,11 +34,13 @@ Authorization: Bearer {{authToken}}
   "content": "I need to know the capital city of France for my geography project."
 }
 
+
 ###
 # @name recent_questions
 GET {{baseUrl}}/questions?page=1
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
+
 
 ###
 # @name edit_questions
@@ -51,11 +53,13 @@ Authorization: Bearer {{authToken}}
   "content": "New content"
 }
 
+
 ###
 # @name delete_questions
 DELETE {{baseUrl}}/questions/86c5fd1f-a91f-4cac-824b-5c7567d394b2
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
+
 
 ###
 # @name answer_questions
@@ -66,3 +70,54 @@ Authorization: Bearer {{authToken}}
 {
   "content": "The capital of France is Paris."
 }
+
+
+###
+# @name edit_answers
+PUT {{baseUrl}}/answers/5c5fedf4-1a60-495e-80ba-7ca41395f96d
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "content": "New content for the answer"
+}
+
+
+###
+# @name delete_answers
+DELETE {{baseUrl}}/answers/471097b5-532e-4ffd-a44d-e4befeb1fb93
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+
+###
+# @name question_comments
+POST {{baseUrl}}/questions/7d98ca4f-279e-4644-aaa0-f9858d64a440/comments
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "content": "This is a comment on the question."
+}
+
+###
+# @name answer_comments
+POST {{baseUrl}}/answers/5c5fedf4-1a60-495e-80ba-7ca41395f96d/comments
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+{
+  "content": "This is a comment on the answer."
+}
+
+###
+# @name delete_question_comment
+DELETE {{baseUrl}}/questions/comments/b259bea2-3e45-40a8-9a82-2df182f2bd57
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+# @name delete_answer_comment
+DELETE {{baseUrl}}/answers/comments/b259bea2-3e45-40a8-9a82-2df182f2bd57
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
