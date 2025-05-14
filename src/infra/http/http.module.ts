@@ -33,6 +33,11 @@ import { AnswerCommentController } from './controllers/comment-on-answer.control
 import { AnswerCommentUseCase } from '@/domain/forum/application/use-cases/comment-on-answer'
 import { DeleteCommentAnswerController } from './controllers/delete-comment-answer.controller'
 import { DeleteAnswerCommentUseCase } from '@/domain/forum/application/use-cases/delete-answer-comment'
+import { FetchQuestionCommentsController } from './controllers/fetch-comment-question.controller'
+import { FetchCommentQuestionUseCase } from '@/domain/forum/application/use-cases/fetch-comment-question'
+import { FetchAnswerCommentController } from './controllers/fetch-comment-answer.controller'
+import { FetchCommentAnswerUseCase } from '@/domain/forum/application/use-cases/fetch-comment-answer'
+import { UploadAttachmentController } from './controllers/upload-attachment.controller'
 
 @Module({
   imports: [DatabaseModule, CryptographyModule],
@@ -53,6 +58,9 @@ import { DeleteAnswerCommentUseCase } from '@/domain/forum/application/use-cases
     DeleteCommentQuestionController,
     AnswerCommentController,
     DeleteCommentAnswerController,
+    FetchQuestionCommentsController,
+    FetchAnswerCommentController,
+    UploadAttachmentController,
   ],
   providers: [
     CreateQuestionUseCase,
@@ -71,6 +79,8 @@ import { DeleteAnswerCommentUseCase } from '@/domain/forum/application/use-cases
     DeleteQuestionCommentUseCase,
     AnswerCommentUseCase,
     DeleteAnswerCommentUseCase,
+    FetchCommentQuestionUseCase,
+    FetchCommentAnswerUseCase,
   ],
 })
 export class HttpModule {}
