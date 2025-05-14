@@ -11,24 +11,24 @@ interface FetchCommentQuestionUseCaseRequest {
 type FetchCommentQuestionUseCaseResponse = Either<
   null,
   {
-    CommentQuestions: QuestionComment[]
+    questionComments: QuestionComment[]
   }
 >
 
 @Injectable()
 export class FetchCommentQuestionUseCase {
-  constructor(private QuestionCommentRepository: QuestionCommentRepository) {}
+  constructor(private questionCommentRepository: QuestionCommentRepository) {}
 
   async execute({
     page,
     questionID,
   }: FetchCommentQuestionUseCaseRequest): Promise<FetchCommentQuestionUseCaseResponse> {
-    const CommentQuestions =
-      await this.QuestionCommentRepository.fetchManyCommentsByQuestionId(
+    const questionComments =
+      await this.questionCommentRepository.fetchManyCommentsByQuestionId(
         questionID,
         { page },
       )
 
-    return right({ CommentQuestions })
+    return right({ questionComments })
   }
 }
