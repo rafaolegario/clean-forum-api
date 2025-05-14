@@ -46,8 +46,8 @@ describe('Edit answer', () => {
     )
 
     await sut.execute({
-      answerID: 'answer-1',
-      authorID: 'author-1',
+      answerId: 'answer-1',
+      authorId: 'author-1',
       content: 'New Content',
       attachmentIds: ['1', '3'],
     })
@@ -77,8 +77,8 @@ describe('Edit answer', () => {
     await inMemoryAnswerRepository.create(answer)
 
     const result = await sut.execute({
-      answerID: 'answer-1',
-      authorID: 'author-2',
+      answerId: 'answer-1',
+      authorId: 'author-2',
       content: 'New Content',
       attachmentIds: [],
     })

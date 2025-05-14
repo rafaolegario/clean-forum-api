@@ -30,7 +30,7 @@ describe('Delete Answer', () => {
 
     await inMemoryAnswerRepository.create(newAnswer)
 
-    await sut.execute({ answerID: 'answer-1', authorID: 'author-1' })
+    await sut.execute({ answerId: 'answer-1', authorId: 'author-1' })
 
     expect(inMemoryAnswerRepository.items).toHaveLength(0)
     expect(inMemoryAnswerAttachmentRepository.items).toHaveLength(0)
@@ -47,8 +47,8 @@ describe('Delete Answer', () => {
     await inMemoryAnswerRepository.create(answer)
 
     const result = await sut.execute({
-      answerID: 'answer-1',
-      authorID: 'author-2',
+      answerId: 'answer-1',
+      authorId: 'author-2',
     })
 
     expect(result.isLeft()).toBe(true)

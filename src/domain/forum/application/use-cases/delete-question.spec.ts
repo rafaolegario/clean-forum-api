@@ -42,7 +42,7 @@ describe('Delete question', () => {
 
     await inMemoryQuestionRepository.create(question)
 
-    await sut.execute({ questionID: 'question-1', authorID: 'author-1' })
+    await sut.execute({ questionId: 'question-1', authorId: 'author-1' })
 
     expect(inMemoryQuestionRepository.items).toHaveLength(0)
     expect(inMemoryQuestionAttachmentRepository.items).toHaveLength(0)
@@ -59,8 +59,8 @@ describe('Delete question', () => {
     await inMemoryQuestionRepository.create(question)
 
     const result = await sut.execute({
-      questionID: 'question-1',
-      authorID: 'author-2',
+      questionId: 'question-1',
+      authorId: 'author-2',
     })
 
     expect(result.isLeft()).toBe(true)
