@@ -30,4 +30,16 @@ describe('Create questions', () => {
       inMemoryQuestionRepository.items[0].attachments.currentItems,
     ).toHaveLength(2)
   })
+
+  it('Should persist attachments when create a new question', async () => {
+    const result = await sut.execute({
+      authorId: '1',
+      title: 'title example',
+      content: 'New question',
+      attachmentIds: ['1', '2'],
+    })
+
+    expect(result.isRight()).toBe(true)
+    expect(inMemoryQuestionAttachmentRepository.items).toHaveLength(2)
+  })
 })
