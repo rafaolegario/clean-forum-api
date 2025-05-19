@@ -17,6 +17,7 @@ import { QuestionPresenter } from '../presenters/question-presenter'
 const editQuestionBodySchema = z.object({
   title: z.string(),
   content: z.string(),
+  attachments: z.array(z.string().uuid()),
 })
 
 type EditQuestionBodySchema = z.infer<typeof editQuestionBodySchema>
@@ -34,14 +35,14 @@ export class EditQuestionController {
     @Param('id') questionId: string,
     @CurrentUser() user: UserPayload,
   ) {
-    const { title, content } = body
+    const { title, content, attachments } = body
     const authorId = user.sub
     const result = await this.editQuestion.execute({
       title,
       content,
       authorId,
       questionId,
-      attachmentIds: [],
+      attachmentIds: attachments,
     })
 
     if (result.isLeft()) {
