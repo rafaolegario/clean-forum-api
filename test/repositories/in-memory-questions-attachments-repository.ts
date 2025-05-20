@@ -4,6 +4,8 @@ import { QuestionAttachment } from '@/domain/forum/enterprise/entities/question-
 export class InMemoryQuestionAttachmentRepository
   implements QuestionAttachmentsRepository
 {
+  public items: QuestionAttachment[] = []
+
   async createMany(attachments: QuestionAttachment[]): Promise<void> {
     this.items.push(...attachments)
   }
@@ -13,8 +15,6 @@ export class InMemoryQuestionAttachmentRepository
       return !attachments.some((attachment) => attachment.equals(item))
     })
   }
-
-  public items: QuestionAttachment[] = []
 
   async fetchManyByQuestionId(questionID: string) {
     const attachments = this.items.filter(

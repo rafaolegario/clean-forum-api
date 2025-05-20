@@ -3,7 +3,6 @@ import { QuestionAttachment } from '@/domain/forum/enterprise/entities/question-
 import { Injectable } from '@nestjs/common'
 import { PrismaService } from '../prisma.service'
 import { PrismaQuestionAttachmentMapper } from '../mappers/prisma-question-attachment-mapper'
-import { PrismaAttachmentMapper } from '../mappers/prisma-attachments-mapper'
 
 @Injectable()
 export class PrismaQuestionAttachmentsRepository
@@ -14,7 +13,7 @@ export class PrismaQuestionAttachmentsRepository
   async createMany(attachments: QuestionAttachment[]): Promise<void> {
     if (attachments.length === 0) return; //eslint-disable-line
 
-    const data = PrismaAttachmentMapper.toPrismaUpdatedMany(attachments)
+    const data = PrismaQuestionAttachmentMapper.toPrismaUpdatedMany(attachments)
     await this.prisma.attachment.updateMany(data)
   }
 

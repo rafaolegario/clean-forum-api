@@ -16,6 +16,7 @@ import { AnswerPresenter } from '../presenters/answer-presenter'
 
 const answerQuestionBodySchema = z.object({
   content: z.string(),
+  attachments: z.array(z.string().uuid()),
 })
 
 type AnswerQuestionBodySchema = z.infer<typeof answerQuestionBodySchema>
@@ -33,13 +34,13 @@ export class AnswerQuestionController {
     @Param('questionId') questionId: string,
     @CurrentUser() user: UserPayload,
   ) {
-    const { content } = body
+    const { content, attachments } = body
     const authorId = user.sub
     const result = await this.answerQuestion.execute({
       content,
       authorId,
       questionId,
-      attachmentIds: [],
+      attachmentIds: attachments,
     })
 
     if (result.isLeft()) {

@@ -8,23 +8,29 @@ import request from 'supertest'
 import { QuestionFactory } from 'test/factories/make-question'
 import { StudentFactory } from 'test/factories/make-student'
 
+import { AttachmentFactory } from 'test/factories/make-attachment'
+
 describe('Answer question (E2E)', () => {
   let app: INestApplication
   let jwt: JwtService
   let studentFactory: StudentFactory
   let questionFactory: QuestionFactory
+  let attachmentFactory: AttachmentFactory
+
   let prisma: PrismaService
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
       imports: [AppModule, DatabaseModule],
-      providers: [StudentFactory, QuestionFactory],
+      providers: [StudentFactory, QuestionFactory, AttachmentFactory],
     }).compile()
 
     app = moduleRef.createNestApplication()
     jwt = moduleRef.get(JwtService)
     studentFactory = moduleRef.get(StudentFactory)
     questionFactory = moduleRef.get(QuestionFactory)
+    attachmentFactory = moduleRef.get(AttachmentFactory)
+
     prisma = moduleRef.get(PrismaService)
     await app.init()
   })
@@ -38,11 +44,14 @@ describe('Answer question (E2E)', () => {
       authorId: user.id,
     })
 
+    const attachment = await attachmentFactory.makePrismaAttachment()
+
     const response = await request(app.getHttpServer())
       .post(`/questions/${question.id}/answers`)
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         content: 'Answer content',
+        attachments: [attachment.id.toString()],
       })
 
     expect(response.statusCode).toBe(201)
@@ -54,5 +63,13 @@ describe('Answer question (E2E)', () => {
     })
 
     expect(AnswerQuestionOnDB).toBeTruthy()
+
+    const AttachmentOnDB = await prisma.attachment.findMany({
+      where: {
+        answerId: AnswerQuestionOnDB?.id,
+      },
+    })
+
+    expect(AttachmentOnDB).toHaveLength(1)
   })
 })
