@@ -4,15 +4,19 @@ import { FetchCommentAnswerUseCase } from './fetch-comment-answer'
 import { MakeCommentAnswer } from 'test/factories/make-comment-answer'
 import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-repository'
 import { InMemoryAnswerAttachmentRepository } from 'test/repositories/in-memory-answer-attachments-repositort'
+import { InMemoryStudentRepository } from 'test/repositories/in-memory-student-repository'
+import { MakeStudent } from 'test/factories/make-student'
 
 let inMemoryAnswerCommentRepository: InMemoryAnswerCommentRepository
 let inMemoryAnswerRepository: InMemoryAnswersRepository
 let sut: FetchCommentAnswerUseCase
+let inMemoryStudentsRepository: InMemoryStudentRepository
 let inMemoryAnswerAttachmentRepository: InMemoryAnswerAttachmentRepository
 
 describe('Fetch answer comments', () => {
   beforeEach(() => {
-    inMemoryAnswerCommentRepository = new InMemoryAnswerCommentRepository()
+    inMemoryStudentsRepository = new InMemoryStudentRepository()
+    inMemoryAnswerCommentRepository = new InMemoryAnswerCommentRepository(inMemoryStudentsRepository)
     inMemoryAnswerAttachmentRepository =
       new InMemoryAnswerAttachmentRepository()
     inMemoryAnswerRepository = new InMemoryAnswersRepository(
@@ -22,6 +26,10 @@ describe('Fetch answer comments', () => {
   })
 
   it('Should be able to fetch comments in a answer', async () => {
+    const student = MakeStudent({name: 'JonhDoe'})
+
+    inMemoryStudentsRepository.items.push(student)
+
     const answer = MakeAnswer()
 
     await inMemoryAnswerRepository.create(answer)
@@ -29,6 +37,7 @@ describe('Fetch answer comments', () => {
     for (let i = 0; i < 5; i++) {
       const AnswerComment = MakeCommentAnswer({
         answerId: answer.id,
+        authorId: student.id
       })
 
       await inMemoryAnswerCommentRepository.create(AnswerComment)
@@ -39,10 +48,21 @@ describe('Fetch answer comments', () => {
       page: 1,
     })
 
-    expect(result.value?.CommentAnswers).toHaveLength(5)
+    expect(result.value?.comments).toHaveLength(5)
+     expect(result.value?.comments).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          authorName: 'JonhDoe',
+        }),
+      ]),
+    )
   })
 
   it('Should be able to paginated comments in a answer', async () => {
+    const student = MakeStudent({name: 'JonhDoe'})
+
+    inMemoryStudentsRepository.items.push(student)
+
     const answer = MakeAnswer()
 
     await inMemoryAnswerRepository.create(answer)
@@ -50,6 +70,7 @@ describe('Fetch answer comments', () => {
     for (let i = 0; i < 22; i++) {
       const AnswerComment = MakeCommentAnswer({
         answerId: answer.id,
+        authorId: student.id
       })
 
       await inMemoryAnswerCommentRepository.create(AnswerComment)
@@ -60,6 +81,13 @@ describe('Fetch answer comments', () => {
       page: 2,
     })
 
-    expect(result.value?.CommentAnswers).toHaveLength(2)
+    expect(result.value?.comments).toHaveLength(2)
+     expect(result.value?.comments).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          authorName: 'JonhDoe',
+        }),
+      ]),
+    )
   })
 })
