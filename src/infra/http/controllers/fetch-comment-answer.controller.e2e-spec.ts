@@ -15,7 +15,7 @@ describe('Fetch answers comment (E2E)', () => {
   let studentFactory: StudentFactory
   let answerFactory: AnswerFactory
   let questionFactory: QuestionFactory
-  let answerComment: AnswerCommentFactory
+  let answerCommentFactory: AnswerCommentFactory
 
   beforeAll(async () => {
     const moduleRef = await Test.createTestingModule({
@@ -34,11 +34,11 @@ describe('Fetch answers comment (E2E)', () => {
     studentFactory = moduleRef.get(StudentFactory)
     answerFactory = moduleRef.get(AnswerFactory)
     questionFactory = moduleRef.get(QuestionFactory)
-    answerComment = moduleRef.get(AnswerCommentFactory)
+    answerCommentFactory = moduleRef.get(AnswerCommentFactory)
   })
 
   test('[GET] /answers/:answerId/comments', async () => {
-    const user = await studentFactory.makePrismaStudent()
+    const user = await studentFactory.makePrismaStudent({name: 'JonhDoe'})
 
     const accessToken = jwt.sign({ sub: user.id.toString() })
 
@@ -51,7 +51,7 @@ describe('Fetch answers comment (E2E)', () => {
       questionId: question.id,
     })
 
-    await answerComment.makePrismaAnswerComment({
+    await answerCommentFactory.makePrismaAnswerComment({
       answerId: answer.id,
       content: 'Comment on answer test',
       authorId: user.id,
@@ -66,7 +66,7 @@ describe('Fetch answers comment (E2E)', () => {
     expect(response.statusCode).toBe(200)
 
     expect(response.body.answer_comments).toEqual([
-      expect.objectContaining({ content: 'Comment on answer test' }),
+      expect.objectContaining({ content: 'Comment on answer test', authorName: 'JonhDoe' }),
     ])
   })
 })
