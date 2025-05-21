@@ -31,7 +31,8 @@ Authorization: Bearer {{authToken}}
 
 {
   "title": "What is dthe capita of France?",
-  "content": "I need to know the capital city of France for my geography project."
+  "content": "I need to know the capital city of France for my geography project.",
+  "attachments":[]
 }
 
 
@@ -50,7 +51,8 @@ Authorization: Bearer {{authToken}}
 
 {
   "title": "New title",
-  "content": "New content"
+  "content": "New content",
+  "attachments":[]
 }
 
 
@@ -92,7 +94,7 @@ Authorization: Bearer {{authToken}}
 
 ###
 # @name question_comments
-POST {{baseUrl}}/questions/7d98ca4f-279e-4644-aaa0-f9858d64a440/comments
+POST {{baseUrl}}/questions/69e752dc-6ff9-480b-bcad-f88fae302894/comments
 Content-Type: application/json
 Authorization: Bearer {{authToken}}
 
@@ -101,6 +103,13 @@ Authorization: Bearer {{authToken}}
 }
 
 ###
+
+GET {{baseUrl}}/questions/69e752dc-6ff9-480b-bcad-f88fae302894/comments
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
+
+###
+
 # @name answer_comments
 POST {{baseUrl}}/answers/5c5fedf4-1a60-495e-80ba-7ca41395f96d/comments
 Content-Type: application/json
