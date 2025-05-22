@@ -16,7 +16,9 @@ let inMemoryAnswerAttachmentRepository: InMemoryAnswerAttachmentRepository
 describe('Fetch answer comments', () => {
   beforeEach(() => {
     inMemoryStudentsRepository = new InMemoryStudentRepository()
-    inMemoryAnswerCommentRepository = new InMemoryAnswerCommentRepository(inMemoryStudentsRepository)
+    inMemoryAnswerCommentRepository = new InMemoryAnswerCommentRepository(
+      inMemoryStudentsRepository,
+    )
     inMemoryAnswerAttachmentRepository =
       new InMemoryAnswerAttachmentRepository()
     inMemoryAnswerRepository = new InMemoryAnswersRepository(
@@ -26,7 +28,7 @@ describe('Fetch answer comments', () => {
   })
 
   it('Should be able to fetch comments in a answer', async () => {
-    const student = MakeStudent({name: 'JonhDoe'})
+    const student = MakeStudent({ name: 'JonhDoe' })
 
     inMemoryStudentsRepository.items.push(student)
 
@@ -37,7 +39,7 @@ describe('Fetch answer comments', () => {
     for (let i = 0; i < 5; i++) {
       const AnswerComment = MakeCommentAnswer({
         answerId: answer.id,
-        authorId: student.id
+        authorId: student.id,
       })
 
       await inMemoryAnswerCommentRepository.create(AnswerComment)
@@ -49,7 +51,7 @@ describe('Fetch answer comments', () => {
     })
 
     expect(result.value?.comments).toHaveLength(5)
-     expect(result.value?.comments).toEqual(
+    expect(result.value?.comments).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           authorName: 'JonhDoe',
@@ -59,7 +61,7 @@ describe('Fetch answer comments', () => {
   })
 
   it('Should be able to paginated comments in a answer', async () => {
-    const student = MakeStudent({name: 'JonhDoe'})
+    const student = MakeStudent({ name: 'JonhDoe' })
 
     inMemoryStudentsRepository.items.push(student)
 
@@ -70,7 +72,7 @@ describe('Fetch answer comments', () => {
     for (let i = 0; i < 22; i++) {
       const AnswerComment = MakeCommentAnswer({
         answerId: answer.id,
-        authorId: student.id
+        authorId: student.id,
       })
 
       await inMemoryAnswerCommentRepository.create(AnswerComment)
@@ -82,7 +84,7 @@ describe('Fetch answer comments', () => {
     })
 
     expect(result.value?.comments).toHaveLength(2)
-     expect(result.value?.comments).toEqual(
+    expect(result.value?.comments).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
           authorName: 'JonhDoe',

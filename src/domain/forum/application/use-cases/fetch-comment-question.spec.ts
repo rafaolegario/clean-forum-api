@@ -6,12 +6,14 @@ import { InMemoryQuestionRepository } from 'test/repositories/in-memory-question
 import { InMemoryQuestionAttachmentRepository } from 'test/repositories/in-memory-questions-attachments-repository'
 import { InMemoryStudentRepository } from 'test/repositories/in-memory-student-repository'
 import { MakeStudent } from 'test/factories/make-student'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 
 let inMemoryQuestionCommentRepository: InMemoryQuestionCommentRepository
 let inMemoryQuestionRepository: InMemoryQuestionRepository
 let inMemoryStudentsRepository: InMemoryStudentRepository
 let sut: FetchCommentQuestionUseCase
 let inMemoryQuestionAttachmentRepository: InMemoryQuestionAttachmentRepository
+let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
 
 describe('Fetch question comments', () => {
   beforeEach(() => {
@@ -21,8 +23,13 @@ describe('Fetch question comments', () => {
     )
     inMemoryQuestionAttachmentRepository =
       new InMemoryQuestionAttachmentRepository()
+
+    inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository()
+
     inMemoryQuestionRepository = new InMemoryQuestionRepository(
       inMemoryQuestionAttachmentRepository,
+      inMemoryStudentsRepository,
+      inMemoryAttachmentsRepository,
     )
     sut = new FetchCommentQuestionUseCase(inMemoryQuestionCommentRepository)
   })

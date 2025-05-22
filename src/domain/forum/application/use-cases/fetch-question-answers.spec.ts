@@ -24,11 +24,11 @@ describe('Fetch answers', () => {
     inMemoryStudentRepository = new InMemoryStudentRepository()
 
     inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository()
-    
+
     inMemoryQuestionRepository = new InMemoryQuestionRepository(
       inMemoryQuestionAttachmentRepository,
       inMemoryStudentRepository,
-      inMemoryAttachmentsRepository
+      inMemoryAttachmentsRepository,
     )
 
     inMemoryAnswerAttachmentRepository =
