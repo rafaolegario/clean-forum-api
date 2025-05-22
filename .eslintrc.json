@@ -10,7 +10,7 @@
         "args": "none"
       }
     ],
-    "@typescript-eslint/ban-types": "off",
-    "End of line": "lf"
+    "@typescript-eslint/ban-types": "off"
+    
   }
 }
