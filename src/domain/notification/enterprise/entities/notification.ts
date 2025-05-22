@@ -6,7 +6,7 @@ export interface NoficationProps {
   recipientId: UniqueEntityID
   title: string
   content: string
-  readAt?: Date
+  readAt?: Date | null
   createdAt: Date
 }
 
