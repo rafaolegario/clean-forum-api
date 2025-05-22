@@ -5,19 +5,30 @@ import { InMemoryAnswersRepository } from 'test/repositories/in-memory-answers-r
 import { FetchQuestionAnswersUseCase } from './fetch-question-answers'
 import { InMemoryAnswerAttachmentRepository } from 'test/repositories/in-memory-answer-attachments-repositort'
 import { InMemoryQuestionAttachmentRepository } from 'test/repositories/in-memory-questions-attachments-repository'
+import { InMemoryStudentRepository } from 'test/repositories/in-memory-student-repository'
+import { InMemoryAttachmentsRepository } from 'test/repositories/in-memory-attachments-repository'
 
 let inMemoryQuestionRepository: InMemoryQuestionRepository
 let inMemoryAnswersRepository: InMemoryAnswersRepository
 let sut: FetchQuestionAnswersUseCase
 let inMemoryAnswerAttachmentRepository: InMemoryAnswerAttachmentRepository
+let inMemoryStudentRepository: InMemoryStudentRepository
+let inMemoryAttachmentsRepository: InMemoryAttachmentsRepository
 let inMemoryQuestionAttachmentRepository: InMemoryQuestionAttachmentRepository
 
 describe('Fetch answers', () => {
   beforeEach(() => {
     inMemoryQuestionAttachmentRepository =
       new InMemoryQuestionAttachmentRepository()
+
+    inMemoryStudentRepository = new InMemoryStudentRepository()
+
+    inMemoryAttachmentsRepository = new InMemoryAttachmentsRepository()
+    
     inMemoryQuestionRepository = new InMemoryQuestionRepository(
       inMemoryQuestionAttachmentRepository,
+      inMemoryStudentRepository,
+      inMemoryAttachmentsRepository
     )
 
     inMemoryAnswerAttachmentRepository =
