@@ -1,7 +1,7 @@
 import { UniqueEntityID } from '@/core/entities/unique-entity-id'
 import { ValueObject } from '@/core/entities/value-object'
 import { Slug } from './slug'
-import { Attachment } from 'generated/prisma'
+import { Attachment } from '../attachment'
 
 export interface QuestionDetailsProps {
   questionId: UniqueEntityID
