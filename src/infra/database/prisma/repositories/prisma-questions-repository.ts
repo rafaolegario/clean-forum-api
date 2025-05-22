@@ -1,44 +1,44 @@
-import { QuestionsRepository } from "@/domain/forum/application/repositories/question-repository";
-import { Question } from "@/domain/forum/enterprise/entities/question";
-import { PaginationParams } from "@/core/repositories/pagination-parms";
-import { Injectable } from "@nestjs/common";
-import { PrismaService } from "../prisma.service";
-import { PrismaQuestionMapper } from "../mappers/prisma-question-mapper";
-import { QuestionAttachmentsRepository } from "@/domain/forum/application/repositories/question-attachment-repository";
-import { QuestionDetails } from "@/domain/forum/enterprise/entities/value-objects/question-details";
-import { PrismaQuestionDetailsMapper } from "../mappers/prisma-question-details-mapper";
+import { QuestionsRepository } from '@/domain/forum/application/repositories/question-repository'
+import { Question } from '@/domain/forum/enterprise/entities/question'
+import { PaginationParams } from '@/core/repositories/pagination-parms'
+import { Injectable } from '@nestjs/common'
+import { PrismaService } from '../prisma.service'
+import { PrismaQuestionMapper } from '../mappers/prisma-question-mapper'
+import { QuestionAttachmentsRepository } from '@/domain/forum/application/repositories/question-attachment-repository'
+import { QuestionDetails } from '@/domain/forum/enterprise/entities/value-objects/question-details'
+import { PrismaQuestionDetailsMapper } from '../mappers/prisma-question-details-mapper'
 
 @Injectable()
 export class PrismaQuestionsRepository implements QuestionsRepository {
   constructor(
     private prisma: PrismaService,
-    private questionAttachmentRepository: QuestionAttachmentsRepository
+    private questionAttachmentRepository: QuestionAttachmentsRepository,
   ) {}
 
   async create(question: Question): Promise<void> {
-    const data = PrismaQuestionMapper.toPrisma(question);
+    const data = PrismaQuestionMapper.toPrisma(question)
 
     await this.prisma.question.create({
       data,
-    });
+    })
 
     await this.questionAttachmentRepository.createMany(
-      question.attachments.getItems()
-    );
+      question.attachments.getItems(),
+    )
   }
 
   async delete(question: Question): Promise<void> {
-    const data = PrismaQuestionMapper.toPrisma(question);
+    const data = PrismaQuestionMapper.toPrisma(question)
 
     await this.prisma.question.delete({
       where: {
         id: data.id,
       },
-    });
+    })
   }
 
   async save(question: Question): Promise<void> {
-    const data = PrismaQuestionMapper.toPrisma(question);
+    const data = PrismaQuestionMapper.toPrisma(question)
 
     await Promise.all([
       this.prisma.question.update({
@@ -49,13 +49,13 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
       }),
 
       this.questionAttachmentRepository.createMany(
-        question.attachments.getNewItems()
+        question.attachments.getNewItems(),
       ),
 
       this.questionAttachmentRepository.deleteMany(
-        question.attachments.getRemovedItems()
+        question.attachments.getRemovedItems(),
       ),
-    ]);
+    ])
   }
 
   async findBySlug(slug: string): Promise<Question | null> {
@@ -63,13 +63,13 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
       where: {
         slug,
       },
-    });
+    })
 
     if (!question) {
-      return null;
+      return null
     }
 
-    return PrismaQuestionMapper.toDomain(question);
+    return PrismaQuestionMapper.toDomain(question)
   }
 
   async findDetailsBySlug(slug: string): Promise<QuestionDetails | null> {
@@ -81,13 +81,13 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
         author: true,
         attachments: true,
       },
-    });
+    })
 
     if (!question) {
-      return null;
+      return null
     }
 
-    return PrismaQuestionDetailsMapper.toDomain(question);
+    return PrismaQuestionDetailsMapper.toDomain(question)
   }
 
   async findById(id: string): Promise<Question | null> {
@@ -95,24 +95,24 @@ export class PrismaQuestionsRepository implements QuestionsRepository {
       where: {
         id,
       },
-    });
+    })
 
     if (!question) {
-      return null;
+      return null
     }
 
-    return PrismaQuestionMapper.toDomain(question);
+    return PrismaQuestionMapper.toDomain(question)
   }
 
   async findManyRecent({ page }: PaginationParams): Promise<Question[]> {
     const questions = await this.prisma.question.findMany({
       orderBy: {
-        createdAt: "desc",
+        createdAt: 'desc',
       },
       take: 20,
       skip: (page - 1) * 20,
-    });
+    })
 
-    return questions.map(PrismaQuestionMapper.toDomain);
+    return questions.map(PrismaQuestionMapper.toDomain)
   }
 }
