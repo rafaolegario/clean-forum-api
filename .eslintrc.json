@@ -1,5 +1,7 @@
 {
-  "extends": "@rocketseat/eslint-config/node",
+  "extends": [
+    "@rocketseat/eslint-config/node"
+  ],
   "rules": {
     "no-useless-constructor": "off",
     "no-unused-vars": [
@@ -8,7 +10,7 @@
         "args": "none"
       }
     ],
-    "@typescript-eslint/ban-types": "off"
-  },
-  "endOfLine": "lf"
+    "@typescript-eslint/ban-types": "off",
+    "End of line": "lf"
+  }
 }
