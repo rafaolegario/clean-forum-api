@@ -1,19 +1,18 @@
-import { UniqueEntityID } from "@/core/entities/unique-entity-id";
-import { QuestionDetails } from "@/domain/forum/enterprise/entities/value-objects/question-details";
-import { Slug } from "@/domain/forum/enterprise/entities/value-objects/slug";
+import { UniqueEntityID } from '@/core/entities/unique-entity-id'
+import { QuestionDetails } from '@/domain/forum/enterprise/entities/value-objects/question-details'
+import { Slug } from '@/domain/forum/enterprise/entities/value-objects/slug'
 
 import {
   Question as PrismaQuestion,
   User as PrismaUser,
   Attachment as PrismaAttachment,
-  Prisma,
-} from "@prisma/client";
-import { PrismaAttachmentMapper } from "./prisma-attachments-mapper";
+} from '@prisma/client'
+import { PrismaAttachmentMapper } from './prisma-attachments-mapper'
 
 type PrismaQuestionDetails = PrismaQuestion & {
-  author: PrismaUser;
-  attachments: PrismaAttachment[];
-};
+  author: PrismaUser
+  attachments: PrismaAttachment[]
+}
 
 export class PrismaQuestionDetailsMapper {
   static toDomain(raw: PrismaQuestionDetails): QuestionDetails {
@@ -30,6 +29,6 @@ export class PrismaQuestionDetailsMapper {
       authorId: new UniqueEntityID(raw.authorId),
       createdAt: raw.createdAt,
       updatedAt: raw.updatedAt,
-    });
+    })
   }
 }
